@@ -1,1 +1,177 @@
+using System;
+using System.Collections.Generic;
 
+class Program
+{
+    static void Main(string[] args)
+    {
+       
+        List<int> numbers = new List<int>();
+        char choice;
+
+        do
+        {
+            
+            Console.WriteLine("P - Print numbers");
+            Console.WriteLine("A - Add a number"); // هنا ضفنا ان لو في رقم مسجل قبل كدا ميسجلوش تاني +اضافة رقم من اختيار اليوزر......... عليها بونص
+            Console.WriteLine("M - Display mean of the numbers");
+            Console.WriteLine("S - Display the smallest number");
+            Console.WriteLine("L - Display the largest number");
+            Console.WriteLine("F - Find a number in the list"); //  ميزة إضافية للبحث عن رقم مسجل... مهندس مقالش عليها يونص بس ك اضافة زيادة مش هتخسر 
+            Console.WriteLine("C - Clear the list");         //  ميزة إضافية للمسح كل المسجل عندي... عليها بونص 
+            Console.WriteLine("Q - Quit");
+            Console.Write("Enter your choice: ");
+
+            //ReadKey هنا استخدمت دي بدل لاين علشان مجرد لما يوزر يدخل الحرف اكنه داس اينتر تلقائي بدل لما يدخل حرف ويرجع يدوس اينتر 
+            choice = char.ToUpper(Console.ReadKey().KeyChar);
+            Console.WriteLine();
+
+            
+            switch (choice)
+            {
+                case 'P': 
+                    if (numbers.Count == 0)
+                    {
+                        Console.WriteLine("[] - the list is empty");
+                    }
+                    else
+                    {
+                        Console.Write("[ ");
+                        for (int i = 0; i < numbers.Count; i++)
+                        {
+                            Console.Write(numbers[i] + " ");
+                        }
+                        Console.WriteLine("]");
+                    }
+                    break;
+
+                case 'A':  //  (Bonus 1 )
+                    Console.Write("Enter an integer to add: ");
+                    int add = Convert.ToInt32(Console.ReadLine());
+
+                    
+                    bool isDuplicate = false;
+                    for (int i = 0; i < numbers.Count; i++)
+                    {
+                        if (numbers[i] == add)
+                        {
+                            isDuplicate = true;
+                            break; 
+                        }
+                    }
+
+                    if (isDuplicate)
+                    {
+                        Console.WriteLine($"{add} already exists - duplicate not allowed!");
+                    }
+                    else
+                    {
+                        numbers.Add(add);
+                        Console.WriteLine($"{add} added");
+                    }
+                    break;
+
+                case 'M': 
+                    if (numbers.Count == 0)
+                    {
+                        Console.WriteLine("Unable to calculate the mean - no data");
+                    }
+                    else
+                    {
+                        double sum = 0;
+                        for (int i = 0; i < numbers.Count; i++)
+                        {
+                            sum += numbers[i];
+                        }
+                        double mean = sum / numbers.Count;
+                        Console.WriteLine($"The mean is: {mean}");
+                    }
+                    break;
+
+                case 'S': 
+                    if (numbers.Count == 0)
+                    {
+                        Console.WriteLine("Unable to determine the smallest number - list is empty");
+                    }
+                    else
+                    {
+                        int smallest = numbers[0];
+                        for (int i = 1; i < numbers.Count; i++)
+                        {
+                            if (numbers[i] < smallest)
+                            {
+                                smallest = numbers[i];
+                            }
+                        }
+                        Console.WriteLine($"The smallest number is {smallest}");
+                    }
+                    break;
+
+                case 'L': 
+                    if (numbers.Count == 0)
+                    {
+                        Console.WriteLine("Unable to determine the largest number - list is empty");
+                    }
+                    else
+                    {
+                        int largest = numbers[0];
+                        for (int i = 1; i < numbers.Count; i++)
+                        {
+                            if (numbers[i] > largest)
+                            {
+                                largest = numbers[i];
+                            }
+                        }
+                        Console.WriteLine($"The largest number is {largest}");
+                    }
+                    break;
+
+                case 'F': //  (Bonus2 )
+                   
+                    if (numbers.Count == 0)
+                    {
+                        Console.WriteLine("The list is empty - nothing to search for");
+                    }
+                    else
+                    {
+                        Console.Write("Enter a number to search for: ");
+                        int searchNum = Convert.ToInt32(Console.ReadLine());
+
+                        bool found = false;
+                        for (int i = 0; i < numbers.Count; i++)
+                        {
+                            if (numbers[i] == searchNum)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (found)
+                        {
+                            Console.WriteLine($"Yes, {searchNum} is found in the list!");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"No, {searchNum} is not in the list.");
+                        }
+                    }
+                    break;
+
+                case 'C':  //  (Bonus3 )
+                    numbers.Clear();
+                    Console.WriteLine("The list has been cleared!");
+                    break;
+
+                case 'Q': 
+                    Console.WriteLine("Goodbye");
+                    break;
+
+                default: 
+                    Console.WriteLine("Unknown selection, please try again");
+                    break;
+            }
+
+        } while (choice != 'Q'); 
+    }
+}
